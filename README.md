@@ -64,9 +64,9 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 
 ## Limitations
 
-**ML Models** Due to the S&P 500's long-term upward drift, the classifier exhibits a strong bias toward predicting upward days (`1`). The 10 bps transaction fees erode any marginal alpha, causing the strategy to underperform Buy & Hold.
+**ML Models**: due to the S&P 500's long-term upward drift, the classifier exhibits a strong bias toward predicting upward days (`1`). The 10 bps transaction fees erode any marginal alpha, causing the strategy to underperform Buy & Hold.
 
-**Moving Average Strategy** Acts as an effective defensive filter, reducing both volatility and maximum drawdown. But it underperforms the S&P 500 on an annualized return basis probably due to lagging signals during market recoveries.
+**Moving Average Strategy**: acts as an effective defensive filter, reducing both volatility and maximum drawdown. But it underperforms the S&P 500 on an annualized return basis probably due to lagging signals during market recoveries.
 
 ## Repository Structure
 
