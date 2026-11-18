@@ -2,11 +2,9 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
 from backtest_functions import metrics
 import os
 
@@ -17,8 +15,6 @@ if os.path.exists(file_path):
     data = pd.read_csv("data/spy_raw.csv", header=[0, 1], index_col=0, parse_dates=True)
 else:
     data = yf.download('SPY', start="1900-01-01", auto_adjust=True)
-    if isinstance(data.columns, pd.MultiIndex):
-        data.columns = data.columns.get_level_values(0)
     data.to_csv(file_path)
 
 price = data["Close"].squeeze()

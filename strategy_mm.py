@@ -12,15 +12,19 @@ if os.path.exists(file_path):
     data = pd.read_csv("data/spy_raw.csv", header=[0, 1], index_col=0, parse_dates=True)
 else:
     data = yf.download('SPY', start="1900-01-01", auto_adjust=True)
-    if isinstance(data.columns, pd.MultiIndex):
-        data.columns = data.columns.get_level_values(0)
     data.to_csv(file_path)
 
-price = data["Close"].squeeze()
+split_idx = int(len(data) * 0.8)
+
+data_train = data.iloc[:split_idx]
+data_test = data.iloc[split_idx:]
+
+price = data_train["Close"].squeeze()
+price_test = data_test["Close"].squeeze()
 
 fig, ax = plt.subplots(figsize=(12, 6))
 
-yields = price.pct_change().fillna(0)
+yields = price_test.pct_change().fillna(0)
 cumul_market = (yields + 1).cumprod()
 yields_market = cumul_market - 1
 cumul_market.plot(ax=ax, label="Buy & Hold (SPY)", color="black", alpha=0.6)
@@ -46,8 +50,8 @@ for up in test_upper:
 df_optimisation = pd.DataFrame(results_array).sort_values(by='yields_strat', ascending=False)
 best = df_optimisation.iloc[0]
 
-backtest_best = backtest_mm(price, int(best['upper']), int(best['lower']))
-yields_daily = backtest_best['Yields_Strategy_Gross'].fillna(0)
+backtest_best = backtest_mm(price_test, int(best['upper']), int(best['lower']))
+yields_daily = backtest_best['Yields_Strategy_Net'].fillna(0)
 
 best_max_drawdown = max_drawdown(backtest_best[f"Strategy {int(best['upper'])}/{int(best['lower'])}"])
 
@@ -76,4 +80,5 @@ plt.ylabel("$")
 plt.legend()
 plt.grid(True, alpha=0.3)
 
+plt.savefig("dashboard_spy_rf.png", dpi=300, bbox_inches="tight")
 plt.show()

@@ -1,6 +1,4 @@
 import pandas as pd
-import yfinance as yf
-import matplotlib.pyplot as plt
 import numpy as np
 
 def backtest_mm(price, up, low, fee=0.001):

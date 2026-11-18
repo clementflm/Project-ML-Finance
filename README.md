@@ -1,16 +1,10 @@
-## Installation
-
-Ensure Python 3.9+ is installed along with the required libraries:
-
-```bash
-pip install pandas numpy yfinance matplotlib scikit-learn
----
+## Installation & Summary
 
 # Quantitative Trading Strategy: SPY Directional Prediction with Random Forest
 
 ## Project Overview
 This project implements two end-to-end machine learning pipelines to predict next-day directional movements of the **S&P 500 ETF (SPY)**. The framework enforces chronological integrity to eliminate look-ahead bias and evaluates strategy viability net of transaction costs.
-A Crossover Moving Average Strategy is also part of the tests, no ML for this one. It's less interestant but I still decided to keep it because it's what actually made me realized this project in ML.
+A Crossover Moving Average Strategy is also part of the tests, no ML for this one. It's less important but I still decided to keep it because it's what actually made me realized this project in ML.
 
 ---
 
@@ -34,17 +28,17 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 | **Annualized Return** | 13.80% | **12.04%** |
 | **Annualized Volatility** | 17.06% | **16.64%** |
 | **Sharpe Ratio** | 0.73 | **0.65** |
-| **Maximum Drawdown** | --33.72% | **-33.72%** |
+| **Maximum Drawdown** | -33.72% | **-33.72%** |
 
 ![Strategy Performance Dashboard Moving Average](Graphics/strategy_mm_graph.png)
 
-### Risk-Adjusted Metrics Comparison (1993 - 2026)
-| Metric | Buy & Hold (SPY) | MM 29 / MM 199 Strategy (Net of Fees) |
+### Risk-Adjusted Metrics Comparison (2020 - 2026)
+| Metric | Buy & Hold (SPY) | MM 30 / MM 198 Strategy (Net of Fees) |
 | :--- | :---: | :---: |
-| **Annualized Return** | 10.64% | **10.03%** |
-| **Annualized Volatility** | 18.53% | **12.07%** |
-| **Sharpe Ratio** | 0.53 | **0.65** |
-| **Maximum Drawdown** | -55.19% | **-29.58%** |
+| **Annualized Return** | 13.81% | **11.49%** |
+| **Annualized Volatility** | 20.12% | **11.41%** |
+| **Sharpe Ratio** | 0.65 | **0.84** |
+| **Maximum Drawdown** | -33.72% | **-14.43%** |
 
 *(Note: Strategies returns incorporate a 10 bps transaction cost penalty per trade)*
 
@@ -65,20 +59,28 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
    * Feature scaling (`StandardScaler`) is fit on training folds before transforming out-of-sample data.
 
 3. **Hyperparameter Optimization & Validation**
-   * Regularized `RandomForestClassifier` (`max_depth`, `min_samples_leaf`, `n_estimators`) via `GridSearchCV`.
+   * Regularized `RandomForestClassifier` (`max_depth`, `min_samples_leaf`, `n_estimators`) via `GridSearchCV` for **`TimeSeriesSplit`**.
    * Evaluated using **`TimeSeriesSplit`** and **`Walk-Forward`** validation.
 
 ---
+
+## Limitations
+
+**`ML Models`** Due to the S&P 500's long-term upward drift, the classifier exhibits a strong bias toward predicting upward days (`1`). The 10 bps transaction fees erode any marginal alpha, causing the strategy to underperform Buy & Hold.
+
+**`Moving Average Strategy`** Acts as an effective defensive filter, reducing both volatility and maximum drawdown. But it underperforms the S&P 500 on an annualized return basis probably due to lagging signals during market recoveries.
 
 ## Repository Structure
 
 ```text
 ├── data/                   # Local CSV market data cache (ignored by Git)
 ├── Graphics/               # Exported high-resolution performance dashboards
-│   └── dashboard_spy_rf.png
+│   └── strategy_mm_graph.png
+│   └── time_series_graph.png
+│   └── walk_forward_graph.png
 ├── backtest_functions.py   # Risk metrics (Sharpe, Drawdown)
 ├── walk_forward.py         # ML training, Walk Forward
-├── times_series.py         # ML training, Time Series strategy
+├── time_series.py         # ML training, Time Series strategy
 ├── strategy_mm.py          # Moving Average crossover strategy
 ├── requirements.txt        # Pinned Python dependencies for reproducibility
 └── README.md
