@@ -11,7 +11,7 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 ![Strategy Performance Dashboard Time Series](Graphics/time_series_graph.png)
 
 ### Risk-Adjusted Metrics Comparison on the same period (Early 2020 - 2026)
-| Metric | Buy & Hold (SPY) | ML Strategy (Net of Fees) |
+| Metric | Buy & Hold (SPY) | ML Strategy Time Series (Net of Fees) |
 | :--- | :---: | :---: |
 | **Annualized Return** | 17.60% | **17.05%** |
 | **Annualized Volatility** | 17.11% | **16.61%** |
@@ -21,7 +21,7 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 ![Strategy Performance Dashboard Walk Forward](Graphics/walk_forward_graph.png)
 
 ### Risk-Adjusted Metrics Comparison (2010 - 2026)
-| Metric | Buy & Hold (SPY) | ML Strategy (Net of Fees) |
+| Metric | Buy & Hold (SPY) | ML Strategy Walk Forward (Net of Fees) |
 | :--- | :---: | :---: |
 | **Annualized Return** | 13.80% | **12.04%** |
 | **Annualized Volatility** | 17.06% | **16.64%** |
