@@ -25,9 +25,7 @@ price_test = data_test["Close"].squeeze()
 fig, ax = plt.subplots(figsize=(12, 6))
 
 yields = price_test.pct_change().fillna(0)
-cumul_market = (yields + 1).cumprod()
-yields_market = cumul_market - 1
-cumul_market.plot(ax=ax, label="Buy & Hold (SPY)", color="black", alpha=0.6)
+
 
 test_upper = range(1, 50, 1)
 test_lower = range(1, 200, 1)
@@ -51,14 +49,19 @@ df_optimisation = pd.DataFrame(results_array).sort_values(by='yields_strat', asc
 best = df_optimisation.iloc[0]
 
 backtest_best = backtest_mm(price_test, int(best['upper']), int(best['lower']))
-yields_daily = backtest_best['Yields_Strategy_Net'].fillna(0)
+yields_daily = backtest_best['Yields_Strategy_Net'].fillna(0).iloc[max(int(best['upper']), int(best['lower'])):]
 
 best_max_drawdown = max_drawdown(backtest_best[f"Strategy {int(best['upper'])}/{int(best['lower'])}"])
 
-backtest_best[f"Strategy {int(best['upper'])}/{int(best['lower'])}"].plot(ax=ax, alpha = 0.8)
+cumul_market = (yields.iloc[max(int(best['upper']), int(best['lower'])):] + 1).cumprod()
+yields_market = cumul_market - 1
+
+backtest_best[f"Strategy {int(best['upper'])}/{int(best['lower'])}"].iloc[max(int(best['upper']), int(best['lower'])):].plot(ax=ax, alpha = 0.8)
+cumul_market.plot(ax=ax, label="Buy & Hold (SPY)", color="black", alpha=0.6)
+
 
 metrics_best = metrics(yields_daily)
-metrics_market = metrics(yields)
+metrics_market = metrics(yields.iloc[max(int(best['upper']), int(best['lower'])):])
 
 df_metrics = pd.DataFrame({
     'Buy & Hold': metrics_market,
@@ -80,5 +83,4 @@ plt.ylabel("$")
 plt.legend()
 plt.grid(True, alpha=0.3)
 
-plt.savefig("dashboard_spy_rf.png", dpi=300, bbox_inches="tight")
 plt.show()

@@ -10,7 +10,7 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 
 ![Strategy Performance Dashboard Time Series](Graphics/time_series_graph.png)
 
-### Risk-Adjusted Metrics Comparison on the same period (2020 - 2026)
+### Risk-Adjusted Metrics Comparison on the same period (Early 2020 - 2026)
 | Metric | Buy & Hold (SPY) | ML Strategy (Net of Fees) |
 | :--- | :---: | :---: |
 | **Annualized Return** | 17.60% | **17.05%** |
@@ -30,13 +30,13 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 
 ![Strategy Performance Dashboard Moving Average](Graphics/strategy_mm_graph.png)
 
-### Risk-Adjusted Metrics Comparison (2020 - 2026)
+### Risk-Adjusted Metrics Comparison (End 2020 - 2026)
 | Metric | Buy & Hold (SPY) | MM 30 / MM 198 Strategy (Net of Fees) |
 | :--- | :---: | :---: |
-| **Annualized Return** | 13.81% | **11.49%** |
-| **Annualized Volatility** | 20.12% | **11.41%** |
-| **Sharpe Ratio** | 0.65 | **0.84** |
-| **Maximum Drawdown** | -33.72% | **-14.43%** |
+| **Annualized Return** | 14.24% | **13.10%** |
+| **Annualized Volatility** | 16.60% | **12.14%** |
+| **Sharpe Ratio** | 0.77 | **0.91** |
+| **Maximum Drawdown** | -24.50% | **-14.43%** |
 
 *(Note: Strategies returns incorporate a 10 bps transaction cost penalty per trade)*
 
@@ -66,7 +66,7 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 
 **ML Models**: due to the S&P 500's long-term upward drift, the classifier exhibits a strong bias toward predicting upward days (`1`). The 10 bps transaction fees erode any marginal alpha, causing the strategy to underperform Buy & Hold.
 
-**Moving Average Strategy**: acts as an effective defensive filter, reducing both volatility and maximum drawdown. But it underperforms the S&P 500 on an annualized return basis probably due to lagging signals during market recoveries.
+**Moving Average Strategy**: acts as an effective defensive filter, reducing both volatility and maximum drawdown. It has a better Sharpe Ratio than Buy & Hold. But it underperforms the S&P 500 on an annualized return basis probably due to lagging signals during market recoveries. The Strategy takes the best ratio out of more than 9000 combinations on the train period and then test it out-of-sample.
 
 ## Repository Structure
 
@@ -82,6 +82,7 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 ├── strategy_mm.py          # Moving Average crossover strategy
 ├── requirements.txt        # Pinned Python dependencies for reproducibility
 └── README.md
+```
 
 
 
