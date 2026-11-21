@@ -2,7 +2,7 @@
 
 ## Project Overview
 This project implements two end-to-end machine learning pipelines to predict next-day directional movements of the **S&P 500 ETF (SPY)**. The framework enforces chronological integrity to eliminate look-ahead bias and evaluates strategy viability net of transaction costs.
-A Crossover Moving Average Strategy is also part of the tests, no ML for this one. It's less important but I still decided to keep it because it's what actually made me realized this project in ML.
+A Crossover Moving Average Strategy is also part of the tests, no ML for this one. It's less important but I still decided to keep it because it is what led me to the ML approach.
 
 ---
 
@@ -57,7 +57,7 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
    * Feature scaling (`StandardScaler`) is fit on training folds before transforming out-of-sample data.
 
 3. **Hyperparameter Optimization & Validation**
-   * Regularized `RandomForestClassifier` (`max_depth`, `min_samples_leaf`, `n_estimators`) via `GridSearchCV` for **`TimeSeriesSplit`**.
+   * Regularized `RandomForestClassifier` (`max_depth`, `min_samples_leaf`, `n_estimators`) via `GridSearchCV` with **`TimeSeriesSplit`**.
    * Evaluated using **`TimeSeriesSplit`** and **`Walk-Forward`** validation.
 
 ---
@@ -66,7 +66,7 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 
 **ML Models**: due to the S&P 500's long-term upward drift, the classifier exhibits a strong bias toward predicting upward days (`1`). The 10 bps transaction fees erode any marginal alpha, causing the strategy to underperform Buy & Hold.
 
-**Moving Average Strategy**: acts as an effective defensive filter, reducing both volatility and maximum drawdown. It has a better Sharpe Ratio than Buy & Hold. But it underperforms the S&P 500 on an annualized return basis probably due to lagging signals during market recoveries. The Strategy takes the best ratio out of more than 9000 combinations on the train period and then test it out-of-sample.
+**Moving Average Strategy**: acts as an effective defensive filter, reducing both volatility and maximum drawdown. It has a slightly better Sharpe Ratio than Buy & Hold. But it underperforms the S&P 500 on an annualized return basis probably due to lagging signals during market recoveries. The Strategy takes the best ratio out of more than 9000 combinations on the train period and then test it out-of-sample.
 
 ## Repository Structure
 
@@ -84,6 +84,13 @@ A Crossover Moving Average Strategy is also part of the tests, no ML for this on
 └── README.md
 ```
 
+## How to run
+```bash
+pip install -r requirements.txt
+python time_series.py
+python walk_forward.py
+python strategy_mm.py
+```
 
 
 
